@@ -10,7 +10,7 @@ const UserGrid = ({ users, setUsers }) => {
 	useEffect(() => {
 		const getUsers = async () => {
 			try {
-				const res = await fetch(BASE_URL + "/friends");
+				const res = await fetch(BASE_URL + "/notes");
 				const data = await res.json();
 
 				if (!res.ok) {
@@ -51,9 +51,9 @@ const UserGrid = ({ users, setUsers }) => {
 				<Flex justifyContent={"center"}>
 					<Text fontSize={"xl"}>
 						<Text as={"span"} fontSize={"2xl"} fontWeight={"bold"} mr={2}>
-							Poor you! 🥺
+							👀
 						</Text>
-						No friends found.
+						No Notes found.
 					</Text>
 				</Flex>
 			)}

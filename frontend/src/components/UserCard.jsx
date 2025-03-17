@@ -7,7 +7,7 @@ const UserCard = ({ user, setUsers }) => {
 	const toast = useToast();
 	const handleDeleteUser = async () => {
 		try {
-			const res = await fetch(BASE_URL + "/friends/" + user.id, {
+			const res = await fetch(BASE_URL + "/notes/" + user.id, {
 				method: "DELETE",
 			});
 			const data = await res.json();
@@ -18,7 +18,7 @@ const UserCard = ({ user, setUsers }) => {
 			toast({
 				status: "success",
 				title: "Success",
-				description: "Friend deleted successfully.",
+				description: "Note deleted successfully.",
 				duration: 2000,
 				position: "top-center",
 			});

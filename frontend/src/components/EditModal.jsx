@@ -34,7 +34,7 @@ function EditModal({ setUsers, user }) {
 		e.preventDefault();
 		setIsLoading(true);
 		try {
-			const res = await fetch(BASE_URL + "/friends/" + user.id, {
+			const res = await fetch(BASE_URL + "/notes/" + user.id, {
 				method: "PATCH",
 				headers: {
 					"Content-Type": "application/json",
@@ -49,7 +49,7 @@ function EditModal({ setUsers, user }) {
 			toast({
 				status: "success",
 				title: "Yayy! 🎉",
-				description: "Friend updated successfully.",
+				description: "Note updated successfully.",
 				duration: 2000,
 				position: "top-center",
 			});
@@ -82,34 +82,34 @@ function EditModal({ setUsers, user }) {
 				<ModalOverlay />
 				<form onSubmit={handleEditUser}>
 					<ModalContent>
-						<ModalHeader>My new BFF 😍</ModalHeader>
+						<ModalHeader>My Notes 😍</ModalHeader>
 						<ModalCloseButton />
 						<ModalBody pb={6}>
 							<Flex alignItems={"center"} gap={4}>
 								<FormControl>
-									<FormLabel>Full Name</FormLabel>
+									<FormLabel>Name</FormLabel>
 									<Input
-										placeholder='John Doe'
+										placeholder='What is on your mind?'
 										value={inputs.name}
 										onChange={(e) => setInputs((prev) => ({ ...prev, name: e.target.value }))}
 									/>
 								</FormControl>
 
-								<FormControl>
+								{/* <FormControl>
 									<FormLabel>Role</FormLabel>
 									<Input
 										placeholder='Software Engineer'
 										value={inputs.role}
 										onChange={(e) => setInputs((prev) => ({ ...prev, role: e.target.value }))}
 									/>
-								</FormControl>
+								</FormControl> */}
 							</Flex>
 							<FormControl mt={4}>
 								<FormLabel>Description</FormLabel>
 								<Textarea
 									resize={"none"}
 									overflowY={"hidden"}
-									placeholder="He's a software engineer who loves to code and build things."
+									placeholder=" "
 									value={inputs.description}
 									onChange={(e) => setInputs((prev) => ({ ...prev, description: e.target.value }))}
 								/>

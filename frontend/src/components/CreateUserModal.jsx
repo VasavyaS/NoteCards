@@ -36,7 +36,7 @@ const CreateUserModal = ({ setUsers }) => {
 		e.preventDefault(); // prevent page refresh
 		setIsLoading(true);
 		try {
-			const res = await fetch(BASE_URL + "/friends", {
+			const res = await fetch(BASE_URL + "/notes", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
@@ -52,7 +52,7 @@ const CreateUserModal = ({ setUsers }) => {
 			toast({
 				status: "success",
 				title: "Yayy! 🎉",
-				description: "Friend created successfully.",
+				description: "Note created successfully.",
 				duration: 2000,
 				position: "top-center",
 			});
@@ -87,44 +87,44 @@ const CreateUserModal = ({ setUsers }) => {
 				<ModalOverlay />
 				<form onSubmit={handleCreateUser}>
 					<ModalContent>
-						<ModalHeader> My new BFF 😍 </ModalHeader>
+						<ModalHeader> Noteworthy – Your ideas, anytime, anywhere. </ModalHeader>
 						<ModalCloseButton />
 
 						<ModalBody pb={6}>
 							<Flex alignItems={"center"} gap={4}>
 								{/* Left */}
 								<FormControl>
-									<FormLabel>Full Name</FormLabel>
+									<FormLabel>Title</FormLabel>
 									<Input
-										placeholder='John Doe'
+										placeholder='What is on your mind?'
 										value={inputs.name}
 										onChange={(e) => setInputs({ ...inputs, name: e.target.value })}
 									/>
 								</FormControl>
 
 								{/* Right */}
-								<FormControl>
+								{/* <FormControl>
 									<FormLabel>Role</FormLabel>
 									<Input
 										placeholder='Software Engineer'
 										value={inputs.role}
 										onChange={(e) => setInputs({ ...inputs, role: e.target.value })}
 									/>
-								</FormControl>
+								</FormControl> */}
 							</Flex>
 
 							<FormControl mt={4}>
-								<FormLabel>Description</FormLabel>
+								{/* <FormLabel>Description</FormLabel> */}
 								<Textarea
 									resize={"none"}
 									overflowY={"hidden"}
-									placeholder="He's a software engineer who loves to code and build things."
+									placeholder=" "
 									value={inputs.description}
 									onChange={(e) => setInputs({ ...inputs, description: e.target.value })}
 								/>
 							</FormControl>
 
-							<RadioGroup mt={4}>
+							{/* <RadioGroup mt={4}>
 								<Flex gap={5}>
 									<Radio
 										value='male'
@@ -139,7 +139,7 @@ const CreateUserModal = ({ setUsers }) => {
 										Female
 									</Radio>
 								</Flex>
-							</RadioGroup>
+							</RadioGroup> */}
 						</ModalBody>
 
 						<ModalFooter>
