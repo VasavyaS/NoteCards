@@ -1,15 +1,11 @@
 # Note Store 🚀
 
-Build a Friend Store with Python(Flask) and JavaScript(React)
-
-![Demo App](https://i.ibb.co/S6Xgb6c/Group-98.png)
-
-[Video Tutorial on Youtube](https://youtu.be/tWHXaSC2T_s)
+Build a Notes App with Python(Flask) and JavaScript(React)
 
 ### Table of Contents
 
 -   ⚙️ Tech Stack: Python, React, SQLite, SQLAlchemy, Flask, Chakra UI
--   ✅ CRUD Functionality: Seamlessly create, read, update, and delete friends from your store.
+-   ✅ CRUD Functionality: Seamlessly create, read, update, and delete notes from your store.
 -   🔒 Best Practices: Utilizes best practices such as creating virtual environments (venv) for a clean and isolated development environment.
 -   🌐 Deployment: Deployed on Render for free.
 -   🎨 Stylish UI Components: Enhanced user experience with stylish UI components provided by Chakra UI.
@@ -21,7 +17,7 @@ Build a Friend Store with Python(Flask) and JavaScript(React)
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/burakorkmez/react-python-tutorial
+git clone https://github.com/VasavyaS/NoteCards.git
 ```
 
 2. Navigate to the project directory:
@@ -105,7 +101,9 @@ cd ../backend
 11. Run the Flask app:
 
 ```bash
-flask run
+flask run 
+or
+python -m flask run
 ```
 
 12. Open your browser and go to `http://localhost:5000/` to view the app.
