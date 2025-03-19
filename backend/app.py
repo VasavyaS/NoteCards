@@ -1,7 +1,7 @@
 # TODO: UPDATE THIS FILE FOR DEPLOYMENT
 from flask import Flask, send_from_directory
-from flask_sqlalchemy import SQLAlchemy
-from flask_cors import CORS
+from flask_sqlalchemy import SQLAlchemy 
+from flask_cors import CORS 
 import os
 
 app = Flask(__name__)
