@@ -30,4 +30,4 @@ jobs:
 
       - name: Deploy to Azure App Service
         run: |
-          az webapp up --name NoteCardsWebApp --resource-group Resource_Group1 --runtime "PYTHON:3.10"
+          az webapp up --name NoteCardsWebApp --resource-group Resource_Group1 --runtime "PYTHON:3.10" --location "Central US"
