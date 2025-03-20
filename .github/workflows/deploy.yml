@@ -53,7 +53,7 @@ jobs:
         
         # Create application version in Elastic Beanstalk AFTER uploading the file
         aws elasticbeanstalk create-application-version \
-          --application-name your-app-name \
+          --application-name NoteCardsApp \
           --version-label ${VERSION_NAME} \
           --source-bundle S3Bucket="elasticbeanstalk-${{ secrets.AWS_REGION }}-859389355576",S3Key="NoteCards/${VERSION_NAME}.zip" \
           --auto-create-application
