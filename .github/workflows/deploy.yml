@@ -26,38 +26,37 @@ jobs:
         sudo apt-get install python3-pip python3-dev build-essential
         pip3 install awsebcli
 
-    - name: Initialize Elastic Beanstalk app
+    - name: Deploy to Elastic Beanstalk
       run: |
-        eb init -p python-3.11 --region ${{ secrets.AWS_REGION }} --no-verify-ssl NoteCardsApp
-
-    - name: Check if Environment Exists
-      run: |
-        ENV_EXISTS=$(aws elasticbeanstalk describe-environments --region ${{ secrets.AWS_REGION }} --query "Environments[?EnvironmentName=='${{ secrets.EB_ENV_NAME }}'].EnvironmentName" --output text)
-        echo "Environment exists: $ENV_EXISTS"
+        # Create a version name with timestamp
+        VERSION_NAME="app-$(date +'%Y%m%d%H%M%S')"
+        echo "Creating application version: $VERSION_NAME"
+        
+        # Initialize EB CLI
+        eb init ${{ secrets.EB_APP_NAME }} -p python-3.11 --region ${{ secrets.AWS_REGION }}
+        
+        # Check if environment exists
+        ENV_EXISTS=$(aws elasticbeanstalk describe-environments --region ${{ secrets.AWS_REGION }} --application-name ${{ secrets.EB_APP_NAME }} --query "Environments[?EnvironmentName=='${{ secrets.EB_ENV_NAME }}'].EnvironmentName" --output text)
+        
         if [ "$ENV_EXISTS" == "" ]; then
           echo "Environment doesn't exist. Creating a new environment..."
-          eb create ${{ secrets.EB_ENV_NAME }} --region ${{ secrets.AWS_REGION }} --platform python-3.11
+          eb create ${{ secrets.EB_ENV_NAME }} --region ${{ secrets.AWS_REGION }}
+        else
+          echo "Environment exists. Deploying to existing environment..."
+          eb use ${{ secrets.EB_ENV_NAME }}
         fi
-
-    - name: Package and Deploy
-      run: |
-        # Create a version name
-        VERSION_NAME="app-$(date +'%Y%m%d_%H%M%S')"
-        echo "Creating new application version: $VERSION_NAME"
         
-        # Zip the app
+        # Package application
         zip -r ${VERSION_NAME}.zip .
         
-        # Upload it to S3
-        aws s3 cp ${VERSION_NAME}.zip s3://elasticbeanstalk-${{ secrets.AWS_REGION }}-859389355576/NoteCards/${VERSION_NAME}.zip
+        # Upload to S3
+        aws s3 cp ${VERSION_NAME}.zip s3://elasticbeanstalk-${{ secrets.AWS_REGION }}-$(aws sts get-caller-identity --query "Account" --output text)/${{ secrets.EB_APP_NAME }}/${VERSION_NAME}.zip
         
-        # Create application version in Elastic Beanstalk AFTER uploading the file
+        # Create application version
         aws elasticbeanstalk create-application-version \
-          --application-name NoteCardsApp \
+          --application-name ${{ secrets.EB_APP_NAME }} \
           --version-label ${VERSION_NAME} \
-          --source-bundle S3Bucket="elasticbeanstalk-${{ secrets.AWS_REGION }}-859389355576",S3Key="NoteCards/${VERSION_NAME}.zip" \
-          --auto-create-application
+          --source-bundle S3Bucket="elasticbeanstalk-${{ secrets.AWS_REGION }}-$(aws sts get-caller-identity --query "Account" --output text)",S3Key="${{ secrets.EB_APP_NAME }}/${VERSION_NAME}.zip"
         
-        # Use the specified environment and deploy with the new version
-        eb use ${{ secrets.EB_ENV_NAME }}
+        # Deploy version
         eb deploy ${{ secrets.EB_ENV_NAME }} --version ${VERSION_NAME}
