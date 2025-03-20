@@ -26,9 +26,28 @@ jobs:
         sudo apt-get install python3-pip python3-dev build-essential
         pip3 install awsebcli
 
-    - name: Deploy to Elastic Beanstalk
+    - name: Initialize Elastic Beanstalk app
       run: |
-        # Initialize Elastic Beanstalk app
         eb init -p python-3.11 --region ${{ secrets.AWS_REGION }} --no-verify-ssl
+
+    - name: Check if Environment Exists
+      run: |
+        ENV_EXISTS=$(aws elasticbeanstalk describe-environments --region ${{ secrets.AWS_REGION }} --query "Environments[?EnvironmentName=='${{ secrets.EB_ENV_NAME }}'].EnvironmentName" --output text)
+        echo "Environment exists: $ENV_EXISTS"
+        if [ "$ENV_EXISTS" == "None" ]; then
+          echo "Environment doesn't exist. Creating a new environment..."
+          eb create ${{ secrets.EB_ENV_NAME }} --region ${{ secrets.AWS_REGION }} --platform python-3.11
+        fi
+
+    - name: Package and upload application version
+      run: |
+        VERSION_NAME="app-$(date +'%Y%m%d_%H%M%S')"
+        echo "Creating new application version: $VERSION_NAME"
+        # Zip the app and upload it to S3 for Elastic Beanstalk
+        zip -r ${VERSION_NAME}.zip .
+        aws s3 cp ${VERSION_NAME}.zip s3://elasticbeanstalk-${{ secrets.AWS_REGION }}-859389355576 /${VERSION_NAME}.zip
+
+    - name: Create and Deploy to Elastic Beanstalk
+      run: |
         eb use ${{ secrets.EB_ENV_NAME }}  # Specify the Elastic Beanstalk environment
-        eb deploy
+        eb deploy --label $VERSION_NAME  # Use the created version label
