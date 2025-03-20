@@ -45,7 +45,7 @@ jobs:
         echo "Creating new application version: $VERSION_NAME"
         # Zip the app and upload it to S3 for Elastic Beanstalk
         zip -r ${VERSION_NAME}.zip .
-        aws s3 cp ${VERSION_NAME}.zip s3://elasticbeanstalk-${{ secrets.AWS_REGION }}-859389355576 /${VERSION_NAME}.zip
+        aws s3 cp ${VERSION_NAME}.zip s3://elasticbeanstalk-${{ secrets.AWS_REGION }}-859389355576/NoteCards/${VERSION_NAME}.zip
 
     - name: Create and Deploy to Elastic Beanstalk
       run: |
