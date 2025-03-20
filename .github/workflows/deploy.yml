@@ -34,7 +34,7 @@ jobs:
       run: |
         ENV_EXISTS=$(aws elasticbeanstalk describe-environments --region ${{ secrets.AWS_REGION }} --query "Environments[?EnvironmentName=='${{ secrets.EB_ENV_NAME }}'].EnvironmentName" --output text)
         echo "Environment exists: $ENV_EXISTS"
-        if [ "$ENV_EXISTS" == "None" ]; then
+        if [ "$ENV_EXISTS" == "" ]; then
           echo "Environment doesn't exist. Creating a new environment..."
           eb create ${{ secrets.EB_ENV_NAME }} --region ${{ secrets.AWS_REGION }} --platform python-3.11
         fi
@@ -49,5 +49,14 @@ jobs:
 
     - name: Create and Deploy to Elastic Beanstalk
       run: |
-        eb use ${{ secrets.EB_ENV_NAME }}  # Specify the Elastic Beanstalk environment
-        eb deploy --label $VERSION_NAME  # Use the created version label
+         # Create a version name
+        VERSION_NAME="app-$(date +'%Y%m%d_%H%M%S')"
+        echo "Creating new application version: $VERSION_NAME"
+        
+        # Zip the app and upload it to S3 for Elastic Beanstalk
+        zip -r ${VERSION_NAME}.zip .
+        aws s3 cp ${VERSION_NAME}.zip s3://elasticbeanstalk-${{ secrets.AWS_REGION }}-859389355576/NoteCards/${VERSION_NAME}.zip
+        
+        # Deploy to Elastic Beanstalk
+        eb use ${{ secrets.EB_ENV_NAME }}
+        eb deploy --label ${VERSION_NAME}
