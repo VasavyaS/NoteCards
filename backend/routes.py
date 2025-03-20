@@ -85,3 +85,4 @@ def update_friend(id):
     db.session.rollback()
     return jsonify({"error":str(e)}),500
 
+#eg changes
