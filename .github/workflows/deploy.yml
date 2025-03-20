@@ -29,6 +29,6 @@ jobs:
     - name: Deploy to Elastic Beanstalk
       run: |
         # Initialize Elastic Beanstalk app
-        eb init -p python-3.7 --region ${{ secrets.AWS_REGION }} --no-verify-ssl
+        eb init -p python-3.10 --region ${{ secrets.AWS_REGION }} --no-verify-ssl
         eb use ${{ secrets.EB_ENV_NAME }}  # Specify the Elastic Beanstalk environment
         eb deploy
