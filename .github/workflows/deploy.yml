@@ -28,7 +28,7 @@ jobs:
 
     - name: Initialize Elastic Beanstalk app
       run: |
-        eb init -p python-3.11 --region ${{ secrets.AWS_REGION }} --no-verify-ssl
+        eb init -p python-3.11 --region ${{ secrets.AWS_REGION }} --no-verify-ssl NoteCardsApp
 
     - name: Check if Environment Exists
       run: |
@@ -50,13 +50,31 @@ jobs:
     - name: Create and Deploy to Elastic Beanstalk
       run: |
         # Create a version name
+        # VERSION_NAME="app-$(date +'%Y%m%d_%H%M%S')"
+        # echo "Creating new application version: $VERSION_NAME"
+        
+        # Zip the app and upload it to S3 for Elastic Beanstalk
+        # zip -r ${VERSION_NAME}.zip .
+        # aws s3 cp ${VERSION_NAME}.zip s3://elasticbeanstalk-${{ secrets.AWS_REGION }}-859389355576/NoteCards/${VERSION_NAME}.zip
+        
+        # Deploy to Elastic Beanstalk
+        # eb use ${{ secrets.EB_ENV_NAME }}
+        # eb deploy --label ${VERSION_NAME}
+        
+        # Create a version name
         VERSION_NAME="app-$(date +'%Y%m%d_%H%M%S')"
         echo "Creating new application version: $VERSION_NAME"
         
-        # Zip the app and upload it to S3 for Elastic Beanstalk
-        zip -r ${VERSION_NAME}.zip .
-        aws s3 cp ${VERSION_NAME}.zip s3://elasticbeanstalk-${{ secrets.AWS_REGION }}-859389355576/NoteCards/${VERSION_NAME}.zip
+        # Create application version in Elastic Beanstalk
+        aws elasticbeanstalk create-application-version \
+          --application-name NoteCardsApp \
+          --version-label ${VERSION_NAME} \
+          --source-bundle S3Bucket="elasticbeanstalk-${{ secrets.AWS_REGION }}-859389355576",S3Key="NoteCards/${VERSION_NAME}.zip" \
+          --auto-create-application
         
-        # Deploy to Elastic Beanstalk
+        # Wait for the version to be processed
+        sleep 10
+        
+        # Use the specified environment and deploy with the new version
         eb use ${{ secrets.EB_ENV_NAME }}
-        eb deploy --label ${VERSION_NAME}
+        eb deploy ${{ secrets.EB_ENV_NAME }} --version ${VERSION_NAME}
