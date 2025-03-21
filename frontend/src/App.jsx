@@ -8,7 +8,7 @@ import { useState } from "react";
 export const BASE_URL =
   import.meta.env.MODE === "development"
     ? "http://127.0.0.1:5000/api"
-    : "http://notecardswebapp.azurewebsites.net";
+    : "http://notecardswebapp.azurewebsites.net/api";
 
 function App() {
 	const [users, setUsers] = useState([]);
