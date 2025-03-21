@@ -6,8 +6,11 @@ import os
 
 app = Flask(__name__)
 
-# We can comment this CORS config for the production because we are running the frontend and backend on the same server
-CORS(app) 
+# We can comment this CORS config for the production because we are running the frontend and backend on the same server 
+CORS(app, origins=["https://thankful-rock-057f0311e.6.azurestaticapps.net"])
+
+
+
 
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///friends.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
