@@ -7,7 +7,7 @@ import os
 app = Flask(__name__, static_folder='../frontend/dist')
 
 # We can comment this CORS config for the production because we are running the frontend and backend on the same server 
-CORS(app, origins=["https://thankful-rock-057f0311e.6.azurestaticapps.net"])
+CORS(app, origins=["https://thankful-rock-057f0311e.6.azurestaticapps.net"], supports_credentials=True)
 
 db_path = '/home/data/friends.db'
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///{db_path}"
