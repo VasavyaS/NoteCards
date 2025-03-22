@@ -11,13 +11,15 @@ CORS(app, origins=["https://thankful-rock-057f0311e.6.azurestaticapps.net"])
 
 
 
-
-app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///friends.db"
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+db_path = '/home/data/friends.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///{db_path}"
+# app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///friends.db"
+# app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'postgresql://username:password@localhost/notecards')
 
 db = SQLAlchemy(app)
 
-frontend_folder = os.path.join(os.getcwd(),"..","frontend")
+frontend_folder =  os.path.join(os.getcwd(),"..","frontend")
 dist_folder = os.path.join(frontend_folder,"dist")
 
 # Server static files from the "dist" folder under the "frontend" directory
