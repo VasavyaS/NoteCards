@@ -34,21 +34,22 @@ jobs:
       
       - name: Install dependencies
         run: |
-          cd backend  # Go to the backend directory
+          # cd backend  # Go to the backend directory
           pip install -r requirements.txt  # Install dependenciespip install -r requirements.txt
+        working-directory: ./backend
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 
       - name: Zip artifact for deployment
         run: zip release.zip ./* -r
-        working-directory: backend 
+        working-directory: ./backend 
 
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v4
         with:
           name: python-app
           path: |
-            backend/release.zip
+            ./backend/release.zip
             !venv/
 
   deploy:
