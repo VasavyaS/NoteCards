@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS 
 import os
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='../frontend/dist')
 
 # We can comment this CORS config for the production because we are running the frontend and backend on the same server 
 CORS(app, origins=["https://thankful-rock-057f0311e.6.azurestaticapps.net"])
