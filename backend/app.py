@@ -1,5 +1,5 @@
 # TODO: UPDATE THIS FILE FOR DEPLOYMENT
-from flask import Flask, send_from_directory
+from flask import Flask, send_from_directory,jsonify
 from flask_sqlalchemy import SQLAlchemy 
 from flask_cors import CORS 
 import os
@@ -30,9 +30,23 @@ dist_folder = os.path.join(frontend_folder,"dist")
 
 @app.route("/",defaults={"filename":""})
 @app.route("/<path:filename>")
-@app.route('/api/notes', methods=['GET'])
-def get_notes():
-    return {"message": "CORS fixed!"}
+@app.after_request
+def after_request(response):
+    # Ensure CORS headers are applied to all responses
+    response.headers['Access-Control-Allow-Origin'] = 'https://thankful-rock-057f0311e.6.azurestaticapps.net'
+    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+    return response
+
+# Handle OPTIONS requests for preflight
+@app.route('/api/notes', methods=['OPTIONS'])
+def options_notes():
+    return '', 200  # 204 No Content is also valid for preflight responses
+
+@app.route('/api/notes', methods=['GET', 'POST', 'PUT', 'DELETE'])
+def handle_notes():
+    # Your logic here
+    return jsonify({"message": "CORS fixed!"})
 
 def index(filename):
   if not filename:
