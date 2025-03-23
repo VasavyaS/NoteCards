@@ -8,7 +8,7 @@ app = Flask(__name__, static_folder='../frontend/dist')
 
 # We can comment this CORS config for the production because we are running the frontend and backend on the same server 
 CORS(app, origins=["https://thankful-rock-057f0311e.6.azurestaticapps.net"])
- 
+# CORS(app)
  
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///friends.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -37,14 +37,14 @@ def after_request(response):
     return response
 
 # Handle OPTIONS requests for preflight
-@app.route('/api/notes', methods=['OPTIONS'])
-def options_notes():
-    return '', 200  # 204 No Content is also valid for preflight responses
+# @app.route('/api/notes', methods=['OPTIONS'])
+# def options_notes():
+#     return '', 200  # 204 No Content is also valid for preflight responses
 
-@app.route('/api/notes', methods=['GET', 'POST', 'PUT', 'DELETE'])
-def handle_notes():
-    # Your logic here
-    return jsonify({"message": "CORS fixed!"})
+# @app.route('/api/notes', methods=['GET', 'POST', 'PUT', 'DELETE'])
+# def handle_notes():
+#     # Your logic here
+#     return jsonify({"message": "CORS fixed!"})
 
 def index(filename):
   if not filename:
