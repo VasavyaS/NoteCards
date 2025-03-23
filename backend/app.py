@@ -15,8 +15,8 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 # db_path = '/home/data/friends.db'
 # app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///{db_path}"
-app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///friends.db"
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+# app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///friends.db"
+# app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 # app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'postgresql://username:password@localhost/notecards')
 
 db = SQLAlchemy(app)
