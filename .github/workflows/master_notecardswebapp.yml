@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: backend # Set the working directory to the backend directory
+        working-directory: ./backend # Set the working directory to the backend directory
     permissions:
       contents: read #This is required for actions/checkout
 
