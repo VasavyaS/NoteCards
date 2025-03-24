@@ -32,7 +32,7 @@ dist_folder = os.path.join(frontend_folder,"dist")
 def after_request(response):
     # Ensure CORS headers are applied to all responses
     response.headers['Access-Control-Allow-Origin'] = 'https://thankful-rock-057f0311e.6.azurestaticapps.net'
-    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
+    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS, PATCH'
     response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
     return response
 
